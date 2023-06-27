@@ -1,3 +1,4 @@
+// initial brainstorming
 const actualTextWords = actualText.split(' ');
     const textInProgressWords = textInProgress.split(' ');
   
