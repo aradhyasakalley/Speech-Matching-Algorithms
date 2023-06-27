@@ -1,0 +1,32 @@
+Apologies for the confusion. Here's an explanation of the algorithm without providing the code:
+
+1. Split the `actualText` and `spokenText` into arrays of words.
+
+2. Initialize pointers:
+   - `atp` (actual text pointer) points to the current word in the `actualTextArray`.
+   - `tsp` (text in progress pointer) points to the current word in the `spokenTextArray`.
+   - `highlightedWord` stores the word to highlight for the child to speak next.
+   - `analyzedIndices` keeps track of the indices of the analyzed words in `spokenTextArray`.
+   - `outputJson` is an object that will store the results of the comparison.
+
+3. Implement a function to match words (`matchWords`) based on matching logic (e.g., full string match, soundex match). Update `outputJson` with correct, missed, extra, and mispronounced words accordingly.
+
+4. Implement a function (`analyzeTextInProgress`) to analyze the words in the `spokenTextArray` that haven't been analyzed yet:
+   - Get the remaining words to analyze from `spokenTextArray` based on the current `tsp` pointer position.
+   - Iterate through the words to analyze and compare them with the corresponding words in the `actualTextArray`.
+   - If a match is found, update `outputJson` with the correct word, move the pointers (`atp` and `tsp`) to the next words, and continue.
+   - If no match is found:
+     - Iterate through the next 5 words in the `actualTextArray` (or fewer if reaching the end).
+     - If a match is found, update `outputJson` with a missed word, move `atp` to the matched word, move `tsp` to the next word, and break the loop.
+     - If no match is found within the next 5 words, update `outputJson` with an extra word, and move `tsp` to the next word.
+   - Update `highlightedWord` based on the pointer positions.
+   - Update `analyzedIndices` with the indices of the analyzed words in `spokenTextArray`.
+
+5. Repeat step 4 periodically based on a timer.
+   - Analyze the remaining words in `spokenTextArray` that haven't been analyzed yet, starting from the last analyzed index stored in `analyzedIndices`.
+   - If there are no remaining words, wait for the next timer tick.
+   - Update `highlightedWord` based on the pointer positions.
+
+6. The algorithm should handle matching logic, track progress with pointers, update the `outputJson` object with the results, and handle highlighting the word for the child to speak next.
+
+The considerations mentioned in the algorithm, such as the number of words to analyze, the timer duration, and when to highlight the word, should be further evaluated and adjusted based on testing and specific requirements.
