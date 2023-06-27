@@ -1,35 +1,57 @@
 function compareText(actualText, textSnippet) {
     const actualTextArray = actualText.split(' ');
     const textSnippetArray = textSnippet.split(' ');
-
+  
     let atp = 0;
     let tsp = 0;
+    let score = 0;
     let missedWords = [];
     let extraWords = [];
     let matchedWords = [];
-
-    while (tsp < textSnippetArray.length) {
-        if (actualTextArray[atp].includes(textSnippetArray[tsp])) {
-            matchedWords.push(actualTextArray[atp]);
+  
+    while (tsp < textSnippetArray.length && atp < actualTextArray.length) {
+      if (actualTextArray[atp].includes(textSnippetArray[tsp])) {
+        matchedWords.push(actualTextArray[atp]);
+        atp++;
+        tsp++;
+        score++;
+      } else {
+        let foundMatch = false;
+        for (let i = atp + 1; i < Math.min(atp + 5, actualTextArray.length); i++) {
+          if (actualTextArray[i].includes(textSnippetArray[tsp])) {
+            missedWords.push(actualTextArray[atp]);
             atp++;
-            tsp++;
-        } else {
-            for (let i = atp + 1 ; i < Math.min(atp + 5, actualTextArray.length); i++) {
-                if (actualTextArray[i].includes(textSnippetArray[tsp])) {
-                    missedWords.push(textSnippetArray[tsp]);
-                } else {
-                    extraWords.push(textSnippetArray[tsp]);
-                }
-            }
+            foundMatch = true;
+            break;
+          }
         }
+        if (!foundMatch) {
+          extraWords.push(textSnippetArray[tsp]);
+          tsp++;
+        }
+      }
     }
-
+  
+    while (tsp < textSnippetArray.length) {
+      extraWords.push(textSnippetArray[tsp]);
+      tsp++;
+    }
+  
+    while (atp < actualTextArray.length) {
+      missedWords.push(actualTextArray[atp]);
+      atp++;
+    }
+    
     console.log('Matched words:', matchedWords);
     console.log('Extra words:', extraWords);
     console.log('Missed words:', missedWords);
-}
-
-const actualText = "I ate the red apple";
-const textSnippet = "I extra the red apple";
-
-compareText(actualText, textSnippet);
+    console.log('Match score: ',score);
+  }
+  
+  const actualText = "I ate the red apple";
+  const textSnippet = "I eight the red apple";
+  console.log('Actual Text: ',actualText);
+  console.log('Text detected: ',textSnippet);
+  
+  compareText(actualText, textSnippet);
+  
