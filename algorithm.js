@@ -1,4 +1,67 @@
 
+
+//function to calculate soundex code
+function getSoundexCode(input) {
+
+  let str = input.toUpperCase();
+  str = str.replace(/[^A-Z]/g, '');
+  
+  if (str.length === 0) {
+    return '';
+  }
+  
+  const firstLetter = str.charAt(0);
+
+  const mapping = {
+    B: 1, F: 1, P: 1, V: 1,
+    C: 2, G: 2, J: 2, K: 2, Q: 2, S: 2, X: 2, Z: 2,
+    D: 3, T: 3,
+    L: 4,
+    M: 5, N: 5,
+    R: 6
+  };
+  
+  let soundexCode = firstLetter;
+  let previousCode = mapping[firstLetter];
+  
+  for (let i = 1; i < str.length; i++) {
+    const letter = str.charAt(i);
+    const code = mapping[letter];
+    
+    if (code && code !== previousCode) {
+      soundexCode += code;
+      previousCode = code;
+    }
+  }
+  
+  soundexCode = soundexCode.replace(/0/g, '');
+
+  if (soundexCode.length > 4) {
+    soundexCode = soundexCode.substring(0, 4);
+  } else {
+    soundexCode = soundexCode.padEnd(4, '0');
+  }
+  
+  return soundexCode;
+}
+
+// // Example usage
+// const input = 'Grate';
+// const soundex = getSoundexCode(input);
+// console.log(soundex);  // Output: J525
+
+
+function matchSoundex(word1,word2){
+  if(getSoundexCode(word1) == getSoundexCode(word2)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+
+
 //function to compare text 
 function compareText(actualText, textSnippet) {
 
@@ -17,14 +80,12 @@ function compareText(actualText, textSnippet) {
     let matchedWords = [];
 
     while (tsp < textSnippetArray.length && atp < actualTextArray.length) {
-      if (actualTextArray[atp].includes(textSnippetArray[tsp])) {
+      if (matchSoundex(textSnippetArray[tsp],actualTextArray[atp])){
         //case of perfect index match
-
         matchedWords.push(actualTextArray[atp]);
         atp++;
         tsp++;
         score++;
-
 
       } else {
         let foundMatch = false;
@@ -54,8 +115,8 @@ function compareText(actualText, textSnippet) {
   }
   
   //example text for testing
-  const actualText = "I ate the red apple";
-  const textSnippet = "I eight ate the extra red extra apple";
+  const actualText = "The elephant had a whistle";
+  const textSnippet = "The elefant extra a whistl";
   console.log('Actual Text: ',actualText);
   console.log('Text detected: ',textSnippet);
   
