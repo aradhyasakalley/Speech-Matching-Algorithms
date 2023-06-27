@@ -1,0 +1,4 @@
+if soundex match --> full match 
+if only last character different --> full match
+if only one character different (except the last) --> mispronounced
+else --> not a match
