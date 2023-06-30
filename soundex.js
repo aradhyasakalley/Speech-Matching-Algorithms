@@ -51,7 +51,7 @@ function getSoundexCode(input) {
   }
   
   // Example usage
-  const input = 'Grate';
+  const input = 'the';
   const soundex = getSoundexCode(input);
-  console.log(soundex);  // Output: J525
+  console.log(soundex); 
   

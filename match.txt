@@ -2,3 +2,44 @@ if soundex match --> full match
 if only last character different --> full match
 if only one character different (except the last) --> mispronounced
 else --> not a match
+
+
+
+
+comparingText(){
+    if(perfect match){
+        if(correct index){
+            matched word
+        }
+        else{
+            missed word
+        }
+    }
+    
+    if(code match perfectly){
+        if(correct index){
+            matched word
+        }
+        else{
+            missed word
+        }
+    }
+    else{
+        if(only one digit different){
+            if(different digit == last){
+              if(correct index){
+                matched word
+              }
+              else{
+                missed word
+              }
+        }
+        else{
+            mispronounced
+        }
+      }
+      else {
+        extra words
+      }
+    }
+}
