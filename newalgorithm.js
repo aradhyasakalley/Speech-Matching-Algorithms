@@ -3,36 +3,21 @@ function getSoundexCode(input) {
   if (!input) {
     return "";
   }
-
   let str = input.toUpperCase();
   str = str.replace(/[^A-Z]/g, "");
 
   if (str.length === 0) {
     return "";
   }
-
   const firstLetter = str.charAt(0);
   const mapping = {
-    B: 1,
-    F: 1,
-    P: 1,
-    V: 1,
-    C: 2,
-    G: 2,
-    J: 2,
-    K: 2,
-    Q: 2,
-    S: 2,
-    X: 2,
-    Z: 2,
-    D: 3,
-    T: 3,
-    L: 4,
-    M: 5,
-    N: 5,
-    R: 6,
+    B: 1, F: 1, P: 1,
+    V: 1, C: 2, G: 2,
+    J: 2, K: 2, Q: 2,
+    S: 2, X: 2, Z: 2,
+    D: 3, T: 3, L: 4,
+    M: 5, N: 5, R: 6,
   };
-
   let soundexCode = firstLetter;
   let previousCode = mapping[firstLetter];
 
@@ -57,46 +42,78 @@ function getSoundexCode(input) {
   return soundexCode;
 }
 
-// Function to check if Soundex codes are exactly the same
-function matchSoundexPerfect(word1, word2) {
-  return getSoundexCode(word1) === getSoundexCode(word2);
-}
+//Some Helper functions
 
-// Function to check if only the last digit of Soundex codes is different
-function matchSoundexPartial(word1, word2) {
-  const soundexCode1 = getSoundexCode(word1);
-  const soundexCode2 = getSoundexCode(word2);
+function countSimilarCharacters(string1, string2) {
+  const map1 = createCharacterMap(string1);
+  const map2 = createCharacterMap(string2);
 
-  if (soundexCode1.length === soundexCode2.length) {
-    const lastDigit1 = soundexCode1.charAt(soundexCode1.length - 1);
-    const lastDigit2 = soundexCode2.charAt(soundexCode2.length - 1);
+  let count = 0;
 
-    return lastDigit1 !== lastDigit2;
-  }
-
-  return false;
-}
-
-// Function to check if any one digit of Soundex codes is different except the last one
-function matchSoundexMispronounced(word1, word2) {
-  const soundexCode1 = getSoundexCode(word1).toString();
-  const soundexCode2 = getSoundexCode(word2).toString();
-
-  if (soundexCode1.length === soundexCode2.length) {
-    let diffCount = 0;
-    for (let i = 0; i < soundexCode1.length - 1; i++) {
-      if (soundexCode1[i] !== soundexCode2[i]) {
-        diffCount++;
-        if (diffCount > 1) {
-          return false;
-        }
-      }
+  for (const char in map1) {
+    if (map2[char]) {
+      count += Math.min(map1[char], map2[char]);
     }
-    return diffCount === 1;
+  }
+  return count;
+}
+
+function createCharacterMap(string) {
+  const charMap = {};
+
+  for (const char of string) {
+    charMap[char] = (charMap[char] || 0) + 1;
+  }
+
+  return charMap;
+}
+
+function isLastCharacterDifferent(string1, string2) {
+  const lastChar1 = string1[string1.length - 1];
+  const lastChar2 = string2[string2.length - 1];
+
+  return lastChar1 !== lastChar2;
+}
+
+//Perfect soundex code match
+function matchSoundexPerfect(word1,word2){
+  let soundexCode1 = getSoundexCode(word1);
+  let soundexCode2 = getSoundexCode(word2);
+
+  if(soundexCode1 == soundexCode2){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+//only one character different int the soundex code except the last one 
+function matchSoundexMispronounced(word1,word2){
+  let soundexCode1 = getSoundexCode(word1);
+  let soundexCode2 = getSoundexCode(word2);
+
+
+  let similarCharacters = countSimilarCharacters(soundexCode1,soundexCode2);
+
+  if (similarCharacters == 3 && !isLastCharacterDifferent(word1,word2)) { 
+    return true;
   }
 
   return false;
 }
+
+//only the last character in the soundex code different
+function matchSoundexPartial(word1, word2) {
+  let soundexCode1 = getSoundexCode(word1);
+  let soundexCode2 = getSoundexCode(word2);
+  let similarCharacters = countSimilarCharacters(soundexCode1,soundexCode2)
+  if (similarCharacters == 3 && isLastCharacterDifferent(word1,word2)) { 
+    return true;
+  }
+  return false;
+}
+
 
 // Function to compare text as per the pointer
 function compareText(actualText, textSnippet) {
@@ -104,9 +121,11 @@ function compareText(actualText, textSnippet) {
   const textSnippetArray = textSnippet.split(" ");
 
   // initializing the variables and pointers
+  //actual text and text snippet pointers
   let atp = 0;
   let tsp = 0;
   let score = 0;
+  // arrays for missed words,extra words,matched words and mispornounced words
   let missedWords = [];
   let extraWords = [];
   let matchedWords = [];
@@ -114,12 +133,13 @@ function compareText(actualText, textSnippet) {
 
   // scanning the text snippet for match
   while (tsp < textSnippetArray.length && atp < actualTextArray.length) {
-    if (actualTextArray[atp].includes(textSnippetArray[tsp])) {
+    if (actualTextArray[atp] === textSnippetArray[tsp]) {
       // case of perfect match
       matchedWords.push(actualTextArray[atp]);
       atp++;
       tsp++;
       score++;
+    
     } else if (matchSoundexPerfect(actualTextArray[atp], textSnippetArray[tsp])) {
       // when soundex match is perfect but words are not
       matchedWords.push(actualTextArray[atp]);
