@@ -158,24 +158,34 @@ function compareText(actualText, textSnippet) {
       atp++;
       tsp++;
     } else {
+      missedWords.push(actualTextArray[atp]);
       for (let i = atp + 1; i < Math.min(atp + 5, actualTextArray.length); i++) {
+      
         if (actualTextArray[i].includes(textSnippetArray[tsp])) {
           missedWords.push(actualTextArray[atp]);
-          atp++;
+          atp = i + 1;
+          tsp++;
         } else if (matchSoundexPerfect(actualTextArray[i], textSnippetArray[tsp])) {
           missedWords.push(actualTextArray[atp]);
           atp++;
+          tsp++;
         } else if (matchSoundexPartial(actualTextArray[i], textSnippetArray[tsp])) {
           missedWords.push(actualTextArray[atp]);
           atp++;
+          tsp++;
         } else if (matchSoundexMispronounced(actualTextArray[i], textSnippetArray[tsp])) {
-          mispronouncedWords.push(actualTextArray[atp]);
-          atp++;
+          mispronouncedWords.push(actualTextArray[i]);
+          atp = i + 1;
+          tsp++;
+
+          break;
         } else {
           extraWords.push(textSnippetArray[tsp]);
           tsp++;
+          atp++;
         }
       }
+
     }
   }
 
@@ -188,7 +198,7 @@ function compareText(actualText, textSnippet) {
 
 // Example text for testing
 const actualText = "I ate the huge apple and the red mango";
-const textSnippet = "I ate use apple the mango";
+const textSnippet = "I ate use extra appl the extra mango";
 
 console.log("Actual Text:", actualText);
 console.log("Text detected:", textSnippet);
