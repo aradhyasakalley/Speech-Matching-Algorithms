@@ -1,0 +1,59 @@
+// on a timer of 100 milliseconds
+
+ LOG  Partial Text:
+ LOG  Last Word:
+ LOG  --------------------------------------
+ LOG  Partial Text:
+ LOG  Last Word:
+ LOG  --------------------------------------
+ LOG  Partial Text: I
+ LOG  Last Word: I
+ LOG  Partial Text: I
+ LOG  Last Word: I
+ LOG  --------------------------------------
+ LOG  --------------------------------------
+ LOG  Partial Text: I
+ LOG  Last Word: I
+ LOG  Partial Text: I eat
+ LOG  Last Word: eat
+ LOG  --------------------------------------
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat
+ LOG  Last Word: eat
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the
+ LOG  Last Word: the
+ LOG  Partial Text: I eat the red
+ LOG  Last Word: red
+ LOG  --------------------------------------
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red
+ LOG  Last Word: red
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple
+ LOG  Last Word: apple
+ LOG  Partial Text: I eat the red apple
+ LOG  Last Word: apple
+ LOG  --------------------------------------
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and
+ LOG  Last Word: and
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and the
+ LOG  Last Word: the
+ LOG  Partial Text: I eat the red apple and the
+ LOG  Last Word: the
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and the
+ LOG  Last Word: the
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and the
+ LOG  Last Word: the
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and the
+ LOG  Last Word: the
+ LOG  --------------------------------------
+ LOG  --------------------------------------
+ LOG  Partial Text: I eat the red apple and the huge
+ LOG  Last Word: huge
+ LOG  --------------------------------------
