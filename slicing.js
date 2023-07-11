@@ -6,8 +6,7 @@ function sliceActualText(text, spokenTextLength) {
   const rightSlice = actualTextArray.slice(spokenTextLength).join(' ');
   console.log('Left slice:', leftSlice);
   console.log('Right slice:', rightSlice);
-  actualText = rightSlice; // Update the global variable actualText
-//   console.log(actualText);
+  actualText = rightSlice; 
 }
 
 sliceActualText(actualText, 3);
